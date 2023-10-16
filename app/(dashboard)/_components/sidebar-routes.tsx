@@ -2,6 +2,7 @@
 
 import {BarChart, Compass, Layout, List }  from 'lucide-react'
 import { SidebarItem } from './sidebar-item'
+import { usePathname } from 'next/navigation'
 
 const guestRoutes =[
   {
@@ -17,8 +18,24 @@ const guestRoutes =[
   },
 ]
 
+const masterRoutes = [
+  {
+    icon: List,
+    label: "Browse",
+    href: "/master/courses",
+  },
+  {
+    icon: BarChart,
+    label: "Analytics",
+    href: "/master/analytics",
+  }
+]
+
 export const SidebarRoutes=()=>{
-  const routes = guestRoutes
+  const pathname = usePathname();
+  const isMasterPage = pathname?.includes("/master");
+
+  const routes = isMasterPage? masterRoutes: guestRoutes
   return (
     <div className='flex flex-col w-full'>
       {routes.map((route)=>(
