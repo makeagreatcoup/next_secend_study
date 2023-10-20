@@ -16,6 +16,7 @@ model Course {
   description String? @db.Text
   imageUrl String? @db.Text
   price Float?
+  balance Int @default(0)
   isPublished Boolean @default(false)
 
   categoryId String?
@@ -120,4 +121,12 @@ model StripeCustomer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+model BalanceAmount {
+  id String @id @default(uuid())
+  userId String @unique
+  balanceAmount Int
+
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }

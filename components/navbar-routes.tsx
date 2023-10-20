@@ -7,18 +7,25 @@ import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 import Link from "next/link";
 import { isMaster } from '@/lib/utils'
+import { SearchInput } from './search-input'
 
 const NavbarRoutes = () => {
 
   const pathname = usePathname()
 
   const { userId } = useAuth();
-
+  console.log(userId)
   const isMasterPage = pathname?.includes('/master')
-  const isPlayerPage = pathname?.includes('/player')
-
-
+  const isPlayerPage = pathname?.includes('/courses')
+  const isSearchPage = pathname === "/search";
+  
   return (
+    <>
+    {isSearchPage && (
+      <div className="hidden md:block">
+        <SearchInput />
+      </div>
+    )}
     <div className='flex gap-x-2 ml-auto'>
       {isMasterPage||isPlayerPage?(
         <Link href='/'>
@@ -34,6 +41,8 @@ const NavbarRoutes = () => {
       ) : null }
       <UserButton afterSignOutUrl='/'/>
     </div>
+    </>
+    
   )
 }
 
