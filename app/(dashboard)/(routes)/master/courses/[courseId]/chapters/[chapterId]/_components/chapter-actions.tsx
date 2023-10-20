@@ -8,21 +8,21 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
-import { useConfettiStore } from "@/hooks/use-confetti-store";
 
-interface ActionsProps {
+interface ChapterActionsProps {
   disabled: boolean;
   courseId: string;
+  chapterId: string;
   isPublished: boolean;
 };
 
-export const Actions = ({
+export const ChapterActions = ({
   disabled,
   courseId,
+  chapterId,
   isPublished
-}: ActionsProps) => {
+}: ChapterActionsProps) => {
   const router = useRouter();
-  const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
@@ -30,12 +30,11 @@ export const Actions = ({
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/unpublish`);
+        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
         toast.success("下架成功");
       } else {
-        await axios.patch(`/api/courses/${courseId}/publish`);
+        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
         toast.success("发布成功");
-        confetti.onOpen();
       }
 
       router.refresh();
@@ -50,11 +49,11 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/courses/${courseId}`);
+      await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
 
       toast.success("删除成功");
       router.refresh();
-      router.push(`/master/courses`);
+      router.push(`/master/courses/${courseId}`);
     } catch {
       toast.error("网络异常");
     } finally {
