@@ -9,6 +9,11 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
+enum FlowType {
+  income 
+  expense 
+}
+
 model Course {
   id String @id @default(uuid())
   userId String
@@ -122,11 +127,20 @@ model StripeCustomer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-model BalanceAmount {
+model Balance {
   id String @id @default(uuid())
   userId String @unique
   balanceAmount Int
 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
+}
+
+model BalanceRecord {
+  id String @id @default(uuid())
+  userId String @unique
+  amount Int
+  type FlowType
+  desc String
+  createdAt DateTime @default(now())
 }

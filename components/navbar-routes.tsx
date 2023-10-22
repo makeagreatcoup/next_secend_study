@@ -2,23 +2,41 @@
 
 import { UserButton, useAuth } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 import Link from "next/link";
 import { isMaster } from '@/lib/utils'
 import { SearchInput } from './search-input'
+import { BalanceButton } from './balance-button'
+import { useBalanceStore } from '@/hooks/use-balance-store'
 
-const NavbarRoutes = () => {
+interface Props{
+  balance?:number;
+}
+
+const NavbarRoutes = ({balance}:Props) => {
 
   const pathname = usePathname()
 
   const { userId } = useAuth();
-  console.log(userId)
   const isMasterPage = pathname?.includes('/master')
   const isPlayerPage = pathname?.includes('/courses')
   const isSearchPage = pathname === "/search";
   
+  const balanceAmountRef = useRef(0);
+  const balanceStore = useBalanceStore()
+  useEffect(()=>{
+    if(balance){
+      if(balance !== balanceAmountRef.current){
+        balanceAmountRef.current = balance;
+        balanceStore.set(balanceAmountRef.current)
+      }
+    }else{
+      balanceAmountRef.current = balanceStore.get().balance
+    }
+  },[])
+
   return (
     <>
     {isSearchPage && (
@@ -27,6 +45,9 @@ const NavbarRoutes = () => {
       </div>
     )}
     <div className='flex gap-x-2 ml-auto'>
+        <Link href='/'>
+          <BalanceButton />
+        </Link>
       {isMasterPage||isPlayerPage?(
         <Link href='/'>
           <Button size='sm' variant='ghost'>

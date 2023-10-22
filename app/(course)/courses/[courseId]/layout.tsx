@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { CourseNavbar } from "./_components/course-navbar";
 import { CourseSidebar } from "./_components/course-sidebar";
+import { getBalance } from "@/actions/get-balance";
 
 const CourseLayout = async({
   children,
