@@ -13,9 +13,10 @@ import { useBalanceStore } from '@/hooks/use-balance-store'
 
 interface Props{
   balance?:number;
+  isChecked?:boolean;
 }
 
-const NavbarRoutes = ({balance}:Props) => {
+const NavbarRoutes = ({balance,isChecked}:Props) => {
 
   const pathname = usePathname()
 
@@ -24,16 +25,15 @@ const NavbarRoutes = ({balance}:Props) => {
   const isPlayerPage = pathname?.includes('/courses')
   const isSearchPage = pathname === "/search";
   
-  const balanceAmountRef = useRef(0);
   const balanceStore = useBalanceStore()
   useEffect(()=>{
-    if(balance){
-      if(balance !== balanceAmountRef.current){
-        balanceAmountRef.current = balance;
-        balanceStore.set(balanceAmountRef.current)
-      }
-    }else{
-      balanceAmountRef.current = balanceStore.get().balance
+    const amount = balanceStore.get().balance
+    const checkTime = balanceStore.get().checkTime
+    if(balance && balance !== amount){
+      balanceStore.setBalance(balance)
+    }
+    if(isChecked || checkTime?.getDate() === new Date().getDate()){
+      balanceStore.setCheckTime()
     }
   },[])
 

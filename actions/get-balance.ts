@@ -18,9 +18,21 @@ export const getBalance = async () => {
         }
       })
     }
+    const today = new Date()
+    today.setHours(0)
+    const balanceRecord = await db.balanceRecord.findFirst({
+      where:{
+        userId:userId!,
+        isChecked: true,
+        createdAt:{
+          gte: today,
+          lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+        }
+      }
+    })
     return {
-      balanceAmount:balance?balance.balanceAmount:0,
-      updateAt:balance?balance.updateAt:null
+      balanceAmount:balance?.balanceAmount||0,
+      isChecked:balanceRecord?true:false,
     };
   } catch (error) {
     console.log("[GET_BALANCE]",error);

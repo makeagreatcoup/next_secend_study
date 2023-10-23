@@ -138,9 +138,11 @@ model Balance {
 
 model BalanceRecord {
   id String @id @default(uuid())
-  userId String @unique
+  userId String 
   amount Int
+  isChecked Boolean @default(false)
   type FlowType
   desc String
   createdAt DateTime @default(now())
+
 }

@@ -7,9 +7,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { FaCoins } from 'react-icons/fa';
 
 import { useAuth } from "@clerk/nextjs";
-import { getBalance } from "@/actions/get-balance";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
 import axios from "axios";
 import { useBalanceStore } from "@/hooks/use-balance-store";
 
@@ -22,13 +20,13 @@ export const BalanceButton =  () => {
   const balanceStore = useBalanceStore()
 
   useEffect(()=>{
-    const {balance,updateTime } = balanceStore.get()
+    const {balance,checkTime } = balanceStore.get()
 
     if(balance){
       setBalanceAmount(balance)
     }
     // 判断时间是否是今天
-    if(updateTime && updateTime.getDate() === new Date().getDate()){
+    if(checkTime && checkTime.getDate() === new Date().getDate()){
       setIsCheck(true)
     }
   },[])

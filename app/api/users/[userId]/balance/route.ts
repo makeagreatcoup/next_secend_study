@@ -12,6 +12,7 @@ export async function PATCH(req:Request,{ params }: { params: { userId: string }
       data:{
         userId:userId!,
         amount:balanceAmount,
+        isChecked:desc?false:true,
         type:FlowType.income,
         desc:desc?desc:"签到奖励"
       }
