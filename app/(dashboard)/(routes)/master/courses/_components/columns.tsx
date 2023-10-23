@@ -23,6 +23,7 @@ export const columns: ColumnDef<Course>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="font-bold align-left"
         >
           标题
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -31,26 +32,27 @@ export const columns: ColumnDef<Course>[] = [
     },
   },
   {
-    accessorKey: "price",
+    accessorKey: "balance",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="font-bold"
         >
           价格
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="ml-1 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price") || "0");
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(price);
+      // const price = parseFloat(row.getValue("price") || "0");
+      // const formatted = new Intl.NumberFormat("en-US", {
+      //   style: "currency",
+      //   currency: "USD"
+      // }).format(price);
 
-      return <div>{formatted}</div>
+      return <div>{row.getValue('balance')}</div>
     }
   },
   {
@@ -60,6 +62,7 @@ export const columns: ColumnDef<Course>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="font-bold"
         >
           已发布
           <ArrowUpDown className="ml-2 h-4 w-4" />

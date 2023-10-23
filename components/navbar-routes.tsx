@@ -9,7 +9,7 @@ import Link from "next/link";
 import { isMaster } from '@/lib/utils'
 import { SearchInput } from './search-input'
 import { BalanceButton } from './balance-button'
-import { useBalanceStore } from '@/hooks/use-balance-store'
+import  useBalanceStore  from '@/hooks/use-balance-store'
 
 interface Props{
   balance?:number;
@@ -32,7 +32,7 @@ const NavbarRoutes = ({balance,isChecked}:Props) => {
     if(balance && balance !== amount){
       balanceStore.setBalance(balance)
     }
-    if(isChecked || checkTime?.getDate() === new Date().getDate()){
+    if(isChecked || checkTime&&new Date(checkTime).getDate() === new Date().getDate()){
       balanceStore.setCheckTime()
     }
   },[])

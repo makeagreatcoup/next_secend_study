@@ -28,7 +28,7 @@ interface PriceFormProps {
 };
 
 const formSchema = z.object({
-  price: z.coerce.number(),
+  balance: z.coerce.number(),
 });
 
 export const PriceForm = ({
@@ -44,7 +44,7 @@ export const PriceForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      price: initialData?.price || undefined,
+      balance: initialData?.balance || undefined,
     },
   });
 
@@ -79,10 +79,10 @@ export const PriceForm = ({
       {!isEditing && (
         <p className={cn(
           "text-sm mt-2",
-          !initialData.price && "text-slate-500 italic"
+          !initialData.balance && "text-slate-500 italic"
         )}>
-          {initialData.price
-            ? formatPrice(initialData.price)
+          {initialData.balance
+            ? initialData.balance
             : ""
           }
         </p>
@@ -95,13 +95,13 @@ export const PriceForm = ({
           >
             <FormField
               control={form.control}
-              name="price"
+              name="balance"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       type="number"
-                      step="0.01"
+                      step="1"
                       disabled={isSubmitting}
                       placeholder=""
                       {...field}

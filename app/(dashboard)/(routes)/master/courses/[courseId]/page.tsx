@@ -59,7 +59,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const requiredFields = [
     course.title,
     course.description,
-    course.price,
+    course.balance,
     course.imageUrl,
     course.categoryId,
   ];

@@ -23,7 +23,7 @@ export const getChapter = async ({userId,courseId,chapterId}:GetChapterProps) =>
         id:courseId
       },
       select:{
-        price:true
+        balance:true
       }
     })
 

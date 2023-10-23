@@ -10,7 +10,7 @@ type Store = {
   get:()=>{balance:number,checkTime:Date|null};
 };
 
-export const useBalanceStore = create<Store>()(
+ const useBalanceStore = create<Store>()(
   persist(
     (set, get) => ({
       balance: 0,
@@ -18,10 +18,14 @@ export const useBalanceStore = create<Store>()(
       set:(balanceAmount) => {set({balance:balanceAmount,checkTime:new Date()})},
       setBalance:(balanceAmount) => {set({balance:balanceAmount})},
       setCheckTime:() => {set({checkTime:new Date()})},
-      get:()=>get()
+      get:()=>get(),
     }),{
       name: 'balance-store',
       storage: createJSONStorage(()=>localStorage),
     }
   )
   );
+
+  const { subscribe } = useBalanceStore;
+  export { subscribe }
+  export default useBalanceStore;
