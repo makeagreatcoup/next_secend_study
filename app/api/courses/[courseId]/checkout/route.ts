@@ -16,7 +16,7 @@ export async function POST(
     if (!user || !user.id || !user.emailAddresses?.[0]?.emailAddress) {
       return new NextResponse("未授权", { status: 401 });
     }
-    console.log('查询课程信息')
+    
     const course = await db.course.findUnique({
       where: {
         id: courseId,
@@ -27,13 +27,31 @@ export async function POST(
     if (!course) {
       return new NextResponse("课程数据异常", { status: 404 });
     }
+    const courseBalance = course.balance
 
-    const balanceAmount = course.balance
+    const balance = await db.balance.findUnique({
+      where :{
+        userId: user.id
+      },
+      select:{
+        balanceAmount:true
+      }
+    })
+    // TODO
+    if(!balance){
+      return new NextResponse("请先签到", { status: 500 });
+    }
+    const balanceAmount = balance.balanceAmount
+
+    if(balanceAmount < courseBalance){
+      return new NextResponse("余额不足", { status: 500 });
+    }
+
     // 插入流水表
     const balanceRecord = await db.balanceRecord.create({
       data:{
         userId:user.id,
-        amount:balanceAmount,
+        amount:courseBalance,
         type:FlowType.expense,
         desc:'购买课程'
       }
@@ -42,22 +60,22 @@ export async function POST(
       return new NextResponse("购买课程失败", { status: 500 });
     }
     // 更新余额表
-    const balance = await db.balance.update({
+    const balanceUpdate = await db.balance.update({
       where:{
         userId:user.id,
       },
       data:{
         balanceAmount:{
-          decrement:balanceAmount
+          decrement:courseBalance
         },
       }
     })
 
-    if(!balance){
-      return new NextResponse("余额异常", { status: 500 });
+    if(!balanceUpdate){
+      return new NextResponse("余额处理异常", { status: 500 });
     }
 
-    
+    // 查询采购表
     const purchase = await db.purchase.findUnique({
       where: {
         userId_courseId: {

@@ -30,8 +30,6 @@ export const BalanceButton = () => {
       setIsCheck(true);
     }
     const unsubscribe = useBalanceStore.subscribe((state) => {
-      console.log("监听");
-      console.log(state);
       setBalanceAmount(state.balance);
     });
 
@@ -66,15 +64,12 @@ export const BalanceButton = () => {
   };
   return (
     <>
-      <Button
-        size="sm"
-        variant="ghost"
-        disabled
-        className="gap-x-1 text-red-500"
+      <div
+        className="gap-x-1 text-red-500 flex items-center"
       >
         <p>{balanceAmount}</p>
         <FaCoins color="red" />
-      </Button>
+      </div>
 
       {check ? (
         <Button size="sm" variant="secondary" disabled>

@@ -5,13 +5,14 @@ import { BookOpen } from "lucide-react";
 import { IconBadge } from "@/components/icon-badge";
 import { CourseProgress } from "@/components/course-progress";
 import { formatPrice } from "@/lib/utils";
+import { FaCoins } from "react-icons/fa";
 
 interface CourseCardProps {
   id: string;
   title: string;
   imageUrl: string;
   chaptersLength: number;
-  price: number;
+  balance: number;
   progress: number | null;
   category: string;
 };
@@ -21,7 +22,7 @@ export const CourseCard = ({
   title,
   imageUrl,
   chaptersLength,
-  price,
+  balance,
   progress,
   category
 }: CourseCardProps) => {
@@ -58,9 +59,9 @@ export const CourseCard = ({
               value={progress}
             />
           ) : (
-            <p className="text-md md:text-sm font-medium text-slate-700">
-              {formatPrice(price)}
-            </p>
+            <div className="text-md md:text-sm font-medium text-slate-700 gap-x-1 flex items-center">
+              {balance} <FaCoins color="red"/>
+            </div>
           )}
         </div>
       </div>

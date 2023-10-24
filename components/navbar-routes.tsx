@@ -45,7 +45,7 @@ const NavbarRoutes = ({balance,isChecked}:Props) => {
       </div>
     )}
     <div className='flex gap-x-2 ml-auto'>
-        <Link href='/'>
+        <Link href='/' className='flex items-center'>
           <BalanceButton />
         </Link>
       {isMasterPage||isPlayerPage?(

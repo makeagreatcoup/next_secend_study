@@ -41,7 +41,7 @@ const CreatePage = () => {
   return (
     <div className='max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6'>
       <div>
-        <h1 className=' text-2xl'>创建新页面</h1>
+        <h1 className=' text-2xl'>创建新课程</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-8 mt-8'
